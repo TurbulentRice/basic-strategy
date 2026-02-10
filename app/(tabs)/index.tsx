@@ -1,20 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Screen } from '@/components/Screen';
+import { ChartTabs } from '@/components/ChartTabs';
+import { StrategyChart } from '@/components/StrategyChart';
+import { ChartLegend } from '@/components/ChartLegend';
+import { HandType } from '@/utils/chartUtils';
 import { COLORS, THEME } from '@/constants/theme';
 
 export default function LearnScreen() {
+  const [selectedTab, setSelectedTab] = useState<HandType>('hard');
+
   return (
-    <Screen>
+    <Screen scrollable>
       <View style={styles.container}>
-        <Text style={styles.title}>📊 Strategy Chart</Text>
-        <Text style={styles.subtitle}>Coming in Phase 4</Text>
-        <View style={styles.infoBox}>
-          <Text style={styles.infoText}>
-            The interactive basic strategy chart will be available here.
+        {/* Title */}
+        <View style={styles.header}>
+          <Text style={styles.title}>Basic Strategy Chart</Text>
+          <Text style={styles.subtitle}>
+            Tap any cell to highlight the row and column
           </Text>
+        </View>
+
+        {/* Legend */}
+        <ChartLegend style={styles.legend} />
+
+        {/* Tabs */}
+        <ChartTabs
+          selected={selectedTab}
+          onSelect={setSelectedTab}
+          style={styles.tabs}
+        />
+
+        {/* Chart */}
+        <StrategyChart
+          handType={selectedTab}
+          style={styles.chart}
+        />
+
+        {/* Info */}
+        <View style={styles.info}>
           <Text style={styles.infoText}>
-            For now, practice your skills in the Practice tab!
+            💡 Tip: Switch between tabs to see different hand types. Practice these
+            decisions in the Practice tab!
           </Text>
         </View>
       </View>
@@ -25,34 +52,40 @@ export default function LearnScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: THEME.spacing.xl,
+  },
+  header: {
+    marginBottom: THEME.spacing.lg,
   },
   title: {
-    fontSize: THEME.typography.fontSize['3xl'],
+    fontSize: THEME.typography.fontSize['2xl'],
     fontWeight: THEME.typography.fontWeight.bold,
     color: COLORS.ui.white,
-    marginBottom: THEME.spacing.sm,
-    textAlign: 'center',
+    marginBottom: THEME.spacing.xs,
   },
   subtitle: {
-    fontSize: THEME.typography.fontSize.lg,
-    color: COLORS.gold.primary,
-    marginBottom: THEME.spacing.xl,
-    textAlign: 'center',
+    fontSize: THEME.typography.fontSize.sm,
+    color: COLORS.ui.mediumGray,
+    fontStyle: 'italic',
   },
-  infoBox: {
+  legend: {
+    marginBottom: THEME.spacing.md,
+  },
+  tabs: {
+    marginBottom: THEME.spacing.md,
+  },
+  chart: {
+    marginBottom: THEME.spacing.lg,
+  },
+  info: {
     backgroundColor: COLORS.feltGreen.light,
-    padding: THEME.spacing.lg,
     borderRadius: THEME.borderRadius.lg,
-    ...THEME.shadows.md,
+    padding: THEME.spacing.md,
+    borderLeftWidth: 4,
+    borderLeftColor: COLORS.gold.primary,
   },
   infoText: {
-    fontSize: THEME.typography.fontSize.base,
+    fontSize: THEME.typography.fontSize.sm,
     color: COLORS.ui.white,
-    textAlign: 'center',
-    marginBottom: THEME.spacing.sm,
-    lineHeight: THEME.typography.fontSize.base * THEME.typography.lineHeight.relaxed,
+    lineHeight: THEME.typography.fontSize.sm * THEME.typography.lineHeight.relaxed,
   },
 });

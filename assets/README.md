@@ -1,22 +1,40 @@
-# Assets Directory
+# Assets
 
-This directory contains app assets such as images, icons, and fonts.
+App icons and images for the Basic Strategy app.
 
-## Required Assets
+## Current Files
 
-The following placeholder files need to be replaced with actual assets:
+- `icon.svg` - App icon (1024x1024, placeholder)
+- `adaptive-icon.svg` - Android adaptive icon (1024x1024, placeholder)
+- `splash.svg` - Splash screen (2048x2048, placeholder)
+- `favicon.svg` - Web favicon (48x48, placeholder)
 
-- `icon.png` - App icon (1024x1024px)
-- `splash.png` - Splash screen image
-- `adaptive-icon.png` - Android adaptive icon (1024x1024px)
-- `favicon.png` - Web favicon (48x48px)
+## For Production
 
-## Temporary Placeholders
+Before publishing to app stores, replace the SVG placeholders with professional PNG assets:
 
-For now, we'll generate simple placeholders. These should be replaced with proper designed assets before release.
+1. **App Icon** (icon.png)
+   - Size: 1024x1024px
+   - Format: PNG with transparency
+   - Design: Professional blackjack/strategy theme
 
-## Future Assets
+2. **Splash Screen** (splash.png)
+   - Size: 2048x2048px (or appropriate resolution)
+   - Format: PNG
+   - Design: App branding
 
-- Card images (optional - can use Unicode symbols initially)
-- Custom fonts (if needed)
-- Sound effects (optional)
+3. **Adaptive Icon** (adaptive-icon.png)
+   - Size: 1024x1024px
+   - Format: PNG with transparency
+   - Design: Works with Android adaptive icon system
+
+4. **Favicon** (favicon.png)
+   - Size: 48x48px (or 16x16, 32x32)
+   - Format: PNG
+   - Design: Simple, recognizable
+
+Then update `app.json` to reference the PNG files instead of SVG files.
+
+## Current Placeholder Design
+
+The placeholder icons show "BS" (Basic Strategy) in gold on a green felt background, matching the app's Vegas aesthetic.
