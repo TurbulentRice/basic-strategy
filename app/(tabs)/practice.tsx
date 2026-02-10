@@ -56,7 +56,7 @@ export default function PracticeScreen() {
         <StatBar stats={stats} style={styles.statBar} />
 
         {/* Dealer Hand */}
-        <View style={styles.handSection}>
+        <View style={styles.dealerHandSection}>
           <Hand
             hand={createHand([currentHand.dealerUpCard])}
             showTotal={false}
@@ -66,7 +66,7 @@ export default function PracticeScreen() {
         </View>
 
         {/* Player Hand */}
-        <View style={styles.handSection}>
+        <View style={styles.playerHandSection}>
           <Hand
             hand={currentHand.playerHand}
             showTotal={true}
@@ -124,36 +124,42 @@ const styles = StyleSheet.create({
     color: COLORS.ui.white,
   },
   statBar: {
-    marginBottom: THEME.spacing.lg,
+    marginBottom: THEME.spacing.sm,
   },
-  handSection: {
+  dealerHandSection: {
     alignItems: 'center',
-    marginVertical: THEME.spacing.lg,
+    marginTop: THEME.spacing.md,
+    marginBottom: THEME.spacing.sm,
+  },
+  playerHandSection: {
+    alignItems: 'center',
+    marginTop: THEME.spacing.xl,
+    marginBottom: THEME.spacing.xs,
   },
   actionSection: {
     marginTop: 'auto',
-    paddingTop: THEME.spacing.lg,
+    paddingTop: THEME.spacing.xs,
   },
   prompt: {
-    fontSize: THEME.typography.fontSize.xl,
+    fontSize: THEME.typography.fontSize.base,
     fontWeight: THEME.typography.fontWeight.semibold,
     color: COLORS.ui.white,
     textAlign: 'center',
-    marginBottom: THEME.spacing.lg,
+    marginBottom: THEME.spacing.sm,
   },
   feedback: {
-    marginBottom: THEME.spacing.lg,
+    marginBottom: THEME.spacing.sm,
   },
   nextButton: {
     backgroundColor: COLORS.gold.primary,
     paddingVertical: THEME.spacing.md,
-    paddingHorizontal: THEME.spacing.xl,
+    paddingHorizontal: THEME.spacing.lg,
     borderRadius: THEME.borderRadius.lg,
     alignItems: 'center',
     ...THEME.shadows.md,
   },
   nextButtonText: {
-    fontSize: THEME.typography.fontSize.lg,
+    fontSize: THEME.typography.fontSize.base,
     fontWeight: THEME.typography.fontWeight.bold,
     color: COLORS.feltGreen.dark,
   },

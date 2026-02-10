@@ -1,5 +1,7 @@
 import { Tabs } from 'expo-router';
 import { StyleSheet } from 'react-native';
+import { LearnIcon } from '@/components/icons/LearnIcon';
+import { PracticeIcon } from '@/components/icons/PracticeIcon';
 
 export default function TabLayout() {
   return (
@@ -17,6 +19,7 @@ export default function TabLayout() {
         options={{
           title: 'Learn',
           headerTitle: 'Basic Strategy',
+          tabBarIcon: ({ color, size }) => <LearnIcon size={size} color={color} />,
         }}
       />
       <Tabs.Screen
@@ -24,6 +27,7 @@ export default function TabLayout() {
         options={{
           title: 'Practice',
           headerTitle: 'Practice Mode',
+          tabBarIcon: ({ color, size }) => <PracticeIcon size={size} color={color} />,
         }}
       />
     </Tabs>

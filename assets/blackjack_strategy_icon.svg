@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-opacity="0.22"/>
+    </filter>
+    <linearGradient id="cardGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#F3F5F7"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background: transparent for favicon/app icon -->
+  <g filter="url(#shadow)">
+    <!-- Left card -->
+    <g transform="translate(138 116) rotate(-10 96 130)">
+      <rect x="20" y="20" rx="22" ry="22" width="190" height="260" fill="url(#cardGrad)" stroke="#D9DEE3" stroke-width="6"/>
+      <!-- A -->
+      <text x="52" y="78" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="44" font-weight="800" fill="#111111">A</text>
+      <!-- Spade -->
+      <path d="M128 112
+               C108 134, 78 150, 78 180
+               C78 210, 102 232, 128 232
+               C154 232, 178 210, 178 180
+               C178 150, 148 134, 128 112
+               Z
+               M128 232
+               C120 256, 102 270, 92 276
+               L164 276
+               C154 270, 136 256, 128 232
+               Z"
+            fill="#111111"/>
+    </g>
+
+    <!-- Right card -->
+    <g transform="translate(212 128) rotate(6 96 130)">
+      <rect x="20" y="20" rx="22" ry="22" width="190" height="260" fill="url(#cardGrad)" stroke="#D9DEE3" stroke-width="6"/>
+      <!-- 10 -->
+      <text x="44" y="78" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="44" font-weight="800" fill="#111111">10</text>
+      <!-- Club -->
+      <path d="M132 150
+               C132 126, 156 110, 178 120
+               C198 128, 206 154, 192 172
+               C204 176, 212 190, 206 206
+               C198 226, 172 232, 156 220
+               C154 246, 122 256, 106 236
+               C90 216, 100 186, 122 178
+               C108 162, 112 150, 132 150
+               Z
+               M140 222
+               C134 248, 120 266, 112 274
+               L184 274
+               C176 266, 162 248, 156 222
+               Z"
+            fill="#111111"/>
+    </g>
+
+    <!-- Chip -->
+    <g transform="translate(116 276)">
+      <circle cx="86" cy="86" r="66" fill="#D92B2B"/>
+      <circle cx="86" cy="86" r="66" fill="none" stroke="#FFFFFF" stroke-width="18" stroke-dasharray="22 18" stroke-linecap="round"/>
+      <circle cx="86" cy="86" r="34" fill="#B91F1F" opacity="0.75"/>
+      <circle cx="86" cy="86" r="34" fill="none" stroke="#FFFFFF" stroke-width="10" opacity="0.9"/>
+    </g>
+
+    <!-- Check -->
+    <g transform="translate(300 272)">
+      <path d="M30 90 L72 132 L154 44"
+            fill="none" stroke="#2ECC71" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M30 90 L72 132 L154 44"
+            fill="none" stroke="#1E8F4E" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" opacity="0.35"/>
+    </g>
+  </g>
+</svg>

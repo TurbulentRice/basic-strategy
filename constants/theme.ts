@@ -95,8 +95,8 @@ export const SHADOWS = {
 export const CARD = {
   width: {
     small: 50,
-    standard: 60,
-    large: 80,
+    standard: 80,
+    large: 105,
   },
   aspectRatio: 5 / 7, // Standard playing card ratio
   borderRadius: BORDER_RADIUS.md,

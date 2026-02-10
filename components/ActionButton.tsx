@@ -139,7 +139,7 @@ export function ActionButton({ action, onPress, disabled = false, style }: Actio
 
 const styles = StyleSheet.create({
   container: {
-    height: 56,
+    height: 48,
     borderRadius: THEME.borderRadius.lg,
     overflow: 'hidden',
     ...THEME.shadows.lg,

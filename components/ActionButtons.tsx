@@ -67,11 +67,11 @@ export function ActionButtons({
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    gap: THEME.spacing.md,
+    gap: THEME.spacing.sm,
   },
   row: {
     flexDirection: 'row',
-    gap: THEME.spacing.md,
+    gap: THEME.spacing.sm,
   },
   buttonWrapper: {
     flex: 1,
