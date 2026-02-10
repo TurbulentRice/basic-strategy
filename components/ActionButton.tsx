@@ -31,13 +31,13 @@ export function ActionButton({ action, onPress, disabled = false, style }: Actio
     Animated.parallel([
       Animated.spring(scaleAnim, {
         toValue: 0.95,
-        useNativeDriver: true,
+        useNativeDriver: Platform.OS !== 'web',
         speed: 50,
       }),
       Animated.timing(glowAnim, {
         toValue: 1,
         duration: 150,
-        useNativeDriver: true,
+        useNativeDriver: Platform.OS !== 'web',
       }),
     ]).start();
   };
@@ -46,14 +46,14 @@ export function ActionButton({ action, onPress, disabled = false, style }: Actio
     Animated.parallel([
       Animated.spring(scaleAnim, {
         toValue: 1,
-        useNativeDriver: true,
+        useNativeDriver: Platform.OS !== 'web',
         speed: 20,
         bounciness: 8,
       }),
       Animated.timing(glowAnim, {
         toValue: 0,
         duration: 300,
-        useNativeDriver: true,
+        useNativeDriver: Platform.OS !== 'web',
       }),
     ]).start();
   };

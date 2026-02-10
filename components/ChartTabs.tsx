@@ -7,7 +7,8 @@ import {
   ViewStyle,
   Animated,
   PanResponder,
-  LayoutChangeEvent
+  LayoutChangeEvent,
+  Platform
 } from 'react-native';
 import { HandType } from '@/utils/chartUtils';
 import { COLORS, THEME } from '@/constants/theme';
@@ -33,7 +34,7 @@ export function ChartTabs({ selected, onSelect, style }: ChartTabsProps) {
   useEffect(() => {
     Animated.spring(slideAnim, {
       toValue: selectedIndex,
-      useNativeDriver: true,
+      useNativeDriver: Platform.OS !== 'web',
       tension: 80,
       friction: 10,
     }).start();
@@ -70,7 +71,7 @@ export function ChartTabs({ selected, onSelect, style }: ChartTabsProps) {
         } else {
           Animated.spring(slideAnim, {
             toValue: selectedIndex,
-            useNativeDriver: true,
+            useNativeDriver: Platform.OS !== 'web',
             tension: 80,
             friction: 10,
           }).start();
