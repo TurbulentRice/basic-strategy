@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Basic Strategy",
-    "slug": "basic-strategy",
+    "slug": "blackjack-basic-strategy",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -29,6 +29,13 @@
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "eb598d38-9a8a-48c0-bbb5-51023bf8fdbc"
+      }
+    },
+    "owner": "sean-russell-development"
   }
 }

@@ -4,37 +4,62 @@ App icons and images for the Basic Strategy app.
 
 ## Current Files
 
-- `icon.png` - App icon (1024x1024, placeholder)
-- `adaptive-icon.png` - Android adaptive icon (placeholder)
-- `splash.png` - Splash screen (placeholder)
-- `favicon.ico` - Web favicon (placeholder)
+### Device Icons
+- **`icon.png`** - App icon for iOS/Android (1024x1024px)
+  - Used for app icon on device home screens
+  - Configured in `app.json`
 
-## For Production
+- **`adaptive-icon.png`** - Android adaptive icon (1024x1024px)
+  - Used for Android adaptive icon system
+  - Supports different device shapes
 
-Before publishing to app stores, replace the SVG placeholders with professional PNG assets:
+- **`splash.png`** - Splash screen (2048x2048px)
+  - Displayed when app is loading
+  - Vegas green felt background
 
-1. **App Icon** (icon.png)
-   - Size: 1024x1024px
-   - Format: PNG with transparency
-   - Design: Professional blackjack/strategy theme
+### In-App Assets
+- **`logo.png`** - In-app logo (used in headers and UI)
+  - Displayed in tab headers
+  - Accessed via `AppLogo` component
 
-2. **Splash Screen** (splash.png)
-   - Size: 2048x2048px (or appropriate resolution)
-   - Format: PNG
-   - Design: App branding
+### Web Assets
+- **`favicon.png`** - Web favicon (48x48px)
+  - Used for browser tab icon
+  - Configured in `app.json`
 
-3. **Adaptive Icon** (adaptive-icon.png)
-   - Size: 1024x1024px
-   - Format: PNG with transparency
-   - Design: Works with Android adaptive icon system
+### Card Assets
+- **`svg-cards/`** - Directory containing playing card SVGs
+  - Used by `Card.tsx` component
+  - Includes all 52 cards with proper suits
 
-4. **Favicon** (favicon.png)
-   - Size: 48x48px (or 16x16, 32x32)
-   - Format: PNG
-   - Design: Simple, recognizable
+## Design Theme
 
-Then update `app.json` to reference the PNG files instead of SVG files.
+All icons feature the Vegas aesthetic:
+- Green felt background (#1a472a)
+- Gold accent colors (#FFD700)
+- Professional blackjack theme
+- Clean, recognizable design
 
-## Current Placeholder Design
+## Usage in Code
 
-The placeholder icons show "BS" (Basic Strategy) in gold on a green felt background, matching the app's Vegas aesthetic.
+```typescript
+// In-app logo
+import { AppLogo } from '@/components/AppLogo';
+<AppLogo size={32} />
+
+// Device icons - configured in app.json
+{
+  "icon": "./assets/icon.png",
+  "adaptiveIcon": {
+    "foregroundImage": "./assets/adaptive-icon.png",
+    "backgroundColor": "#1a472a"
+  }
+}
+```
+
+## Asset Configuration
+
+All assets are properly configured in:
+- `app.json` - App icon, splash, favicon
+- `eas.json` - Build configuration
+- Components - In-app logo usage

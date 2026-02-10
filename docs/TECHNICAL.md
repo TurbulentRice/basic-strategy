@@ -201,6 +201,50 @@ eas build --platform android   # Android build
 eas submit                     # Submit to stores
 ```
 
+### EAS Build System
+
+**Setup (one-time):**
+```bash
+npm install -g eas-cli
+eas login
+```
+
+**Preview Builds (for testing with friends):**
+```bash
+# iOS - Creates TestFlight build
+eas build --platform ios --profile preview
+
+# Android - Creates APK
+eas build --platform android --profile preview
+```
+
+**Production Builds (for app stores):**
+```bash
+# iOS
+eas build --platform ios --profile production
+eas submit --platform ios
+
+# Android
+eas build --platform android --profile production
+eas submit --platform android
+```
+
+### Build Profiles (`eas.json`)
+
+- **preview**: For beta testing with TestFlight (iOS) or direct APK (Android)
+- **development**: For development builds with hot reload
+- **production**: For App Store and Google Play submissions
+
+### Distribution Methods
+
+**iOS:**
+- TestFlight: Automatic with EAS, up to 10,000 testers
+- App Store: Full public release
+
+**Android:**
+- Direct APK: Share download link, unlimited testers
+- Google Play: Internal Testing, Beta, or Production tracks
+
 ## Dependencies
 
 **Core:**
