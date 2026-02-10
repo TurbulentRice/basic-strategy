@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "Basic Strategy",
+    "slug": "basic-strategy",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.svg",
+    "userInterfaceStyle": "light",
+    "scheme": "basic-strategy",
+    "splash": {
+      "image": "./assets/splash.svg",
+      "resizeMode": "contain",
+      "backgroundColor": "#1a472a"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.basicstrategy.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.svg",
+        "backgroundColor": "#1a472a"
+      },
+      "package": "com.basicstrategy.app"
+    },
+    "web": {
+      "favicon": "./assets/favicon.svg",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router"
+    ]
+  }
+}
