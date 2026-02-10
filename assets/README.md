@@ -4,10 +4,10 @@ App icons and images for the Basic Strategy app.
 
 ## Current Files
 
-- `icon.svg` - App icon (1024x1024, placeholder)
-- `adaptive-icon.svg` - Android adaptive icon (1024x1024, placeholder)
+- `icon.png` - App icon (1024x1024, placeholder)
+- `adaptive-icon.png` - Android adaptive icon (placeholder)
 - `splash.png` - Splash screen (placeholder)
-- `favicon.svg` - Web favicon (48x48, placeholder)
+- `favicon.ico` - Web favicon (placeholder)
 
 ## For Production
 

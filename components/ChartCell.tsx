@@ -40,8 +40,8 @@ export function ChartCell({
 
 const styles = StyleSheet.create({
   cell: {
-    minWidth: 32,
-    minHeight: 32,
+    width: 30,
+    height: 30,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     borderRadius: THEME.borderRadius.sm,
   },
   highlighted: {
-    borderWidth: 3,
+    borderWidth: 2,
     borderColor: COLORS.ui.white,
     ...THEME.shadows.lg,
     shadowColor: COLORS.ui.white,

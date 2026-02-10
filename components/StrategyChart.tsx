@@ -32,9 +32,8 @@ export function StrategyChart({ handType, style }: StrategyChartProps) {
       <View style={styles.dealerLabelContainer}>
         <Text style={styles.dealerLabelText}>Dealer's Up Card →</Text>
       </View>
-
       <ScrollView
-        horizontal
+        horizontal={false}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
@@ -114,25 +113,25 @@ const styles = StyleSheet.create({
     borderColor: COLORS.glass.whiteLight,
   },
   scrollContent: {
-    paddingBottom: THEME.spacing.sm,
+    paddingBottom: THEME.spacing.xs,
   },
   headerRow: {
     flexDirection: 'row',
-    marginBottom: THEME.spacing.xs,
+    marginBottom: 2,
   },
   cornerCell: {
-    width: 50,
-    height: 32,
+    width: 40,
+    height: 28,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(13, 40, 24, 0.6)',
     borderRadius: THEME.borderRadius.sm,
-    marginRight: THEME.spacing.xs,
+    marginRight: 3,
     borderWidth: 1,
     borderColor: COLORS.glass.whiteLight,
   },
   cornerText: {
-    fontSize: THEME.typography.fontSize.xs,
+    fontSize: 10,
     color: COLORS.gold.primary,
     fontWeight: THEME.typography.fontWeight.bold,
     textShadowColor: COLORS.gold.glow,
@@ -140,13 +139,13 @@ const styles = StyleSheet.create({
     textShadowRadius: 4,
   },
   headerCell: {
-    width: 32,
-    height: 32,
+    width: 30,
+    height: 30,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(13, 40, 24, 0.6)',
     borderRadius: THEME.borderRadius.sm,
-    marginRight: THEME.spacing.xs / 2,
+    marginRight: 1,
     borderWidth: 1,
     borderColor: COLORS.glass.whiteLight,
   },
@@ -157,7 +156,7 @@ const styles = StyleSheet.create({
     ...THEME.shadows.md,
   },
   headerText: {
-    fontSize: THEME.typography.fontSize.sm,
+    fontSize: 12,
     fontWeight: THEME.typography.fontWeight.bold,
     color: COLORS.gold.primary,
   },
@@ -166,16 +165,16 @@ const styles = StyleSheet.create({
   },
   dataRow: {
     flexDirection: 'row',
-    marginBottom: THEME.spacing.xs / 2,
+    marginBottom: 1,
   },
   rowLabel: {
-    width: 50,
-    height: 32,
+    width: 40,
+    height: 30,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(13, 40, 24, 0.6)',
     borderRadius: THEME.borderRadius.sm,
-    marginRight: THEME.spacing.xs,
+    marginRight: 3,
     borderWidth: 1,
     borderColor: COLORS.glass.whiteLight,
   },
@@ -186,7 +185,7 @@ const styles = StyleSheet.create({
     ...THEME.shadows.md,
   },
   rowLabelText: {
-    fontSize: THEME.typography.fontSize.sm,
+    fontSize: 12,
     fontWeight: THEME.typography.fontWeight.bold,
     color: COLORS.gold.primary,
   },
@@ -194,9 +193,10 @@ const styles = StyleSheet.create({
     color: COLORS.feltGreen.darkest,
   },
   cell: {
-    marginRight: THEME.spacing.xs / 2,
+    marginRight: 1,
   },
   dealerLabelContainer: {
+    margin: 'auto',
     marginBottom: THEME.spacing.xs,
     paddingHorizontal: THEME.spacing.xs,
   },
@@ -207,5 +207,5 @@ const styles = StyleSheet.create({
     textShadowColor: COLORS.gold.glow,
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 4,
-  },
+  }
 });
