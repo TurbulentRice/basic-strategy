@@ -159,7 +159,7 @@ npm run type-check    # TypeScript validation
 ## File Organization
 
 ```
-basic-strategy/
+blackjack-basic-strategy/
 ├── app/                    # Screens (Expo Router)
 ├── components/             # Reusable UI (14 components)
 ├── constants/              # Data & config (4 files)

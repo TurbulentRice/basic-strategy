@@ -1,12 +1,10 @@
-# Basic Strategy
+# Blackjack Basic Strategy
 
 A mobile app for learning and practicing blackjack basic strategy for casino play.
 
 ## 🎯 Overview
 
-Basic Strategy is a clean, beautiful mobile application designed to help players learn and master basic strategy for casino blackjack. Perfect for anyone preparing for a trip to Las Vegas or wanting to improve their game.
-
-**Status: Production-Ready! 🎊**
+Clean, simple, ad-free and free-to-use mobile application designed to help players learn and master basic strategy for casino blackjack. Built using React Native and Expo.
 
 ## ✨ Features
 
@@ -53,7 +51,7 @@ Basic Strategy is a clean, beautiful mobile application designed to help players
 ```bash
 # Clone the repository
 git clone <your-repo-url>
-cd basic-strategy
+cd blackjack-basic-strategy
 
 # Install dependencies
 npm install
@@ -200,7 +198,7 @@ Following basic strategy reduces the house edge to approximately 0.5%, making bl
 ## 📂 Project Structure
 
 ```
-basic-strategy/
+blackjack-basic-strategy/
 ├── app/                    # Screens (Expo Router)
 │   ├── (tabs)/            # Tab navigation
 │   │   ├── _layout.tsx    # Tab layout with logo header
