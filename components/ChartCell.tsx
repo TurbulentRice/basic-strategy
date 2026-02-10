@@ -49,9 +49,14 @@ const styles = StyleSheet.create({
     borderRadius: THEME.borderRadius.sm,
   },
   highlighted: {
-    borderWidth: 2,
-    borderColor: COLORS.gold.primary,
-    ...THEME.shadows.md,
+    borderWidth: 3,
+    borderColor: COLORS.ui.white,
+    ...THEME.shadows.lg,
+    shadowColor: COLORS.ui.white,
+    shadowOpacity: 0.6,
+    shadowRadius: 8,
+    elevation: 8,
+    transform: [{ scale: 1.05 }],
   },
   text: {
     fontSize: THEME.typography.fontSize.sm,

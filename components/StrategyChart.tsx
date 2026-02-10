@@ -28,6 +28,11 @@ export function StrategyChart({ handType, style }: StrategyChartProps) {
 
   return (
     <View style={[styles.container, style]}>
+      {/* Dealer label indicator */}
+      <View style={styles.dealerLabelContainer}>
+        <Text style={styles.dealerLabelText}>Dealer's Up Card →</Text>
+      </View>
+
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -39,33 +44,44 @@ export function StrategyChart({ handType, style }: StrategyChartProps) {
             <View style={styles.cornerCell}>
               <Text style={styles.cornerText}>You ↓</Text>
             </View>
-            {chartData.dealerCards.map((dealer, index) => (
-              <View
-                key={dealer}
-                style={[
-                  styles.headerCell,
-                  highlightedCol === index && styles.highlightedHeader,
-                ]}
-              >
-                <Text style={styles.headerText}>
-                  {formatDealerCard(dealer)}
-                </Text>
-              </View>
-            ))}
+            {chartData.dealerCards.map((dealer, index) => {
+              const isHighlighted = highlightedCol === index;
+              return (
+                <View
+                  key={dealer}
+                  style={[
+                    styles.headerCell,
+                    isHighlighted && styles.highlightedHeader,
+                  ]}
+                >
+                  <Text style={[
+                    styles.headerText,
+                    isHighlighted && styles.highlightedHeaderText,
+                  ]}>
+                    {formatDealerCard(dealer)}
+                  </Text>
+                </View>
+              );
+            })}
           </View>
 
           {/* Data rows */}
-          {chartData.rows.map((row, rowIndex) => (
-            <View key={row.label} style={styles.dataRow}>
-              {/* Row label (player hand) */}
-              <View
-                style={[
-                  styles.rowLabel,
-                  highlightedRow === rowIndex && styles.highlightedRowLabel,
-                ]}
-              >
-                <Text style={styles.rowLabelText}>{row.label}</Text>
-              </View>
+          {chartData.rows.map((row, rowIndex) => {
+            const isRowHighlighted = highlightedRow === rowIndex;
+            return (
+              <View key={row.label} style={styles.dataRow}>
+                {/* Row label (player hand) */}
+                <View
+                  style={[
+                    styles.rowLabel,
+                    isRowHighlighted && styles.highlightedRowLabel,
+                  ]}
+                >
+                  <Text style={[
+                    styles.rowLabelText,
+                    isRowHighlighted && styles.highlightedRowLabelText,
+                  ]}>{row.label}</Text>
+                </View>
 
               {/* Action cells */}
               {row.cells.map((action, colIndex) => (
@@ -79,15 +95,11 @@ export function StrategyChart({ handType, style }: StrategyChartProps) {
                   style={styles.cell}
                 />
               ))}
-            </View>
-          ))}
+              </View>
+            );
+          })}
         </View>
       </ScrollView>
-
-      {/* Dealer label */}
-      <View style={styles.dealerLabel}>
-        <Text style={styles.dealerLabelText}>Dealer Up Card →</Text>
-      </View>
     </View>
   );
 }
@@ -98,6 +110,8 @@ const styles = StyleSheet.create({
     borderRadius: THEME.borderRadius.lg,
     padding: THEME.spacing.sm,
     ...THEME.shadows.md,
+    borderWidth: 1,
+    borderColor: COLORS.glass.whiteLight,
   },
   scrollContent: {
     paddingBottom: THEME.spacing.sm,
@@ -111,31 +125,44 @@ const styles = StyleSheet.create({
     height: 32,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: COLORS.feltGreen.dark,
+    backgroundColor: 'rgba(13, 40, 24, 0.6)',
     borderRadius: THEME.borderRadius.sm,
     marginRight: THEME.spacing.xs,
+    borderWidth: 1,
+    borderColor: COLORS.glass.whiteLight,
   },
   cornerText: {
     fontSize: THEME.typography.fontSize.xs,
     color: COLORS.gold.primary,
     fontWeight: THEME.typography.fontWeight.bold,
+    textShadowColor: COLORS.gold.glow,
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 4,
   },
   headerCell: {
     width: 32,
     height: 32,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: COLORS.feltGreen.dark,
+    backgroundColor: 'rgba(13, 40, 24, 0.6)',
     borderRadius: THEME.borderRadius.sm,
     marginRight: THEME.spacing.xs / 2,
+    borderWidth: 1,
+    borderColor: COLORS.glass.whiteLight,
   },
   highlightedHeader: {
-    backgroundColor: COLORS.gold.dark,
+    backgroundColor: COLORS.gold.primary,
+    borderColor: COLORS.ui.white,
+    borderWidth: 2,
+    ...THEME.shadows.md,
   },
   headerText: {
     fontSize: THEME.typography.fontSize.sm,
     fontWeight: THEME.typography.fontWeight.bold,
     color: COLORS.gold.primary,
+  },
+  highlightedHeaderText: {
+    color: COLORS.feltGreen.darkest,
   },
   dataRow: {
     flexDirection: 'row',
@@ -146,33 +173,39 @@ const styles = StyleSheet.create({
     height: 32,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: COLORS.feltGreen.dark,
+    backgroundColor: 'rgba(13, 40, 24, 0.6)',
     borderRadius: THEME.borderRadius.sm,
     marginRight: THEME.spacing.xs,
+    borderWidth: 1,
+    borderColor: COLORS.glass.whiteLight,
   },
   highlightedRowLabel: {
-    backgroundColor: COLORS.gold.dark,
+    backgroundColor: COLORS.gold.primary,
+    borderColor: COLORS.ui.white,
+    borderWidth: 2,
+    ...THEME.shadows.md,
   },
   rowLabelText: {
     fontSize: THEME.typography.fontSize.sm,
     fontWeight: THEME.typography.fontWeight.bold,
     color: COLORS.gold.primary,
   },
+  highlightedRowLabelText: {
+    color: COLORS.feltGreen.darkest,
+  },
   cell: {
     marginRight: THEME.spacing.xs / 2,
   },
-  dealerLabel: {
-    position: 'absolute',
-    top: THEME.spacing.sm,
-    right: THEME.spacing.sm,
-    backgroundColor: COLORS.feltGreen.dark,
-    paddingHorizontal: THEME.spacing.sm,
-    paddingVertical: THEME.spacing.xs / 2,
-    borderRadius: THEME.borderRadius.sm,
+  dealerLabelContainer: {
+    marginBottom: THEME.spacing.xs,
+    paddingHorizontal: THEME.spacing.xs,
   },
   dealerLabelText: {
     fontSize: THEME.typography.fontSize.xs,
-    color: COLORS.gold.primary,
-    fontWeight: THEME.typography.fontWeight.bold,
+    color: COLORS.gold.light,
+    fontWeight: THEME.typography.fontWeight.semibold,
+    textShadowColor: COLORS.gold.glow,
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 4,
   },
 });

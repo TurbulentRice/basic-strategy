@@ -105,6 +105,30 @@ export const CARD = {
 // Common screen padding
 export const SCREEN_PADDING = SPACING.md;
 
+// Glassmorphism effects
+export const GLASS_EFFECTS = {
+  light: {
+    backgroundColor: COLORS.glass.white,
+    borderWidth: 1,
+    borderColor: COLORS.glass.whiteStrong,
+  },
+  medium: {
+    backgroundColor: COLORS.glass.whiteStrong,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.25)',
+  },
+  strong: {
+    backgroundColor: COLORS.glass.green,
+    borderWidth: 1,
+    borderColor: COLORS.glass.whiteStrong,
+  },
+  gold: {
+    backgroundColor: COLORS.glass.gold,
+    borderWidth: 1.5,
+    borderColor: COLORS.gold.glow,
+  },
+} as const;
+
 // Theme object combining all constants
 export const THEME = {
   colors: COLORS,
@@ -114,6 +138,7 @@ export const THEME = {
   shadows: SHADOWS,
   card: CARD,
   screenPadding: SCREEN_PADDING,
+  glassEffects: GLASS_EFFECTS,
 } as const;
 
 export type Theme = typeof THEME;

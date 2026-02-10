@@ -17,7 +17,7 @@ export function Screen({ children, scrollable = false, style }: ScreenProps) {
   );
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
+    <SafeAreaView style={styles.container} edges={[]}>
       {scrollable ? (
         <ScrollView
           style={styles.scrollView}
