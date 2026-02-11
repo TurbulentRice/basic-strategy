@@ -6,6 +6,7 @@ Welcome to the Basic Strategy app documentation!
 
 ### For Users
 - [**Basic Strategy Rules**](./BASIC_STRATEGY_RULES.md) - Learn the fundamentals of blackjack basic strategy
+- [**Coach Mode**](./COACH_MODE.md) - Enhanced learning feature with detailed strategic insights
 
 ### For Developers
 - [**Technical Reference**](./TECHNICAL.md) - Architecture, data structures, and implementation details
@@ -44,6 +45,7 @@ docs/
 **App Features:**
 - ✅ Complete basic strategy chart (all scenarios)
 - ✅ Interactive practice mode with feedback
+- ✅ Optional Coach Mode with deep strategic insights
 - ✅ Real-time statistics tracking
 - ✅ Beautiful Vegas-inspired design
 - ✅ Cross-platform (iOS, Android, Web)

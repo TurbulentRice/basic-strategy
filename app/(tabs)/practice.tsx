@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { usePractice } from '@/contexts/PracticeContext';
 import { Screen } from '@/components/Screen';
@@ -6,15 +6,18 @@ import { StatBar } from '@/components/StatBar';
 import { Hand } from '@/components/Hand';
 import { ActionButtons } from '@/components/ActionButtons';
 import { FeedbackMessage } from '@/components/FeedbackMessage';
+import { CoachHint } from '@/components/CoachHint';
 import { Action } from '@/types';
 import { getAvailableActions } from '@/utils/strategyUtils';
 import { getActionRecommendation } from '@/utils/strategyUtils';
+import { generateCoachingHint } from '@/utils/coachingUtils';
 import { COLORS, THEME } from '@/constants/theme';
 import { createHand } from '@/utils/handUtils';
 
 export default function PracticeScreen() {
   const { state, startNewHand, submitAction } = usePractice();
   const { currentHand, lastAction, wasCorrect, stats } = state;
+  const [coachMode, setCoachMode] = useState(false);
 
   // Start first hand on mount
   useEffect(() => {
@@ -49,30 +52,64 @@ export default function PracticeScreen() {
     currentHand.dealerUpCard
   );
 
+  // Generate coaching hint
+  const coachingHint = coachMode && !showingFeedback
+    ? generateCoachingHint(
+        currentHand.playerHand,
+        currentHand.dealerUpCard,
+        currentHand.correctAction
+      )
+    : null;
+
   return (
     <Screen>
       <View style={styles.container}>
-        {/* Stats Bar */}
-        <StatBar stats={stats} style={styles.statBar} />
-
-        {/* Dealer Hand */}
-        <View style={styles.dealerHandSection}>
-          <Hand
-            hand={createHand([currentHand.dealerUpCard])}
-            showTotal={false}
-            label="Dealer"
-            size="standard"
-          />
+        {/* Stats Bar with Coach Mode Toggle */}
+        <View style={styles.topBar}>
+          <StatBar stats={stats} style={styles.statBar} />
+          <TouchableOpacity
+            style={[styles.coachToggle, coachMode && styles.coachToggleActive]}
+            onPress={() => setCoachMode(!coachMode)}
+          >
+            <Text style={styles.coachToggleIcon}>💡</Text>
+            <Text style={[styles.coachToggleText, coachMode && styles.coachToggleTextActive]}>
+              Coach
+            </Text>
+          </TouchableOpacity>
         </View>
 
-        {/* Player Hand */}
-        <View style={styles.playerHandSection}>
-          <Hand
-            hand={currentHand.playerHand}
-            showTotal={true}
-            label="Your Hand"
-            size="large"
-          />
+        {/* Game Area (Dealer + Player Hands) */}
+        <View style={styles.gameArea}>
+          {/* Dealer Hand */}
+          <View style={styles.dealerHandSection}>
+            <Hand
+              hand={createHand([currentHand.dealerUpCard])}
+              showTotal={false}
+              label="Dealer"
+              size="standard"
+            />
+          </View>
+
+          {/* Player Hand */}
+          <View style={styles.playerHandSection}>
+            <Hand
+              hand={currentHand.playerHand}
+              showTotal={true}
+              label="Your Hand"
+              size="large"
+            />
+          </View>
+
+          {/* Coach Hint - overlays both hands */}
+          {coachingHint && (
+            <View style={styles.coachHintContainer}>
+              <CoachHint
+                hint={coachingHint}
+                playerHand={currentHand.playerHand}
+                dealerCard={currentHand.dealerUpCard}
+              />
+            </View>
+          )}
         </View>
 
         {/* Feedback or Action Prompt */}
@@ -123,18 +160,61 @@ const styles = StyleSheet.create({
     fontSize: THEME.typography.fontSize.xl,
     color: COLORS.ui.white,
   },
-  statBar: {
+  topBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     marginBottom: THEME.spacing.sm,
+  },
+  statBar: {
+    flex: 1,
+    marginRight: THEME.spacing.sm,
+  },
+  coachToggle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: THEME.spacing.xs,
+    paddingHorizontal: THEME.spacing.sm,
+    borderRadius: THEME.borderRadius.lg,
+    backgroundColor: COLORS.glass.white,
+    borderWidth: 1.5,
+    borderColor: COLORS.glass.whiteStrong,
+    ...THEME.shadows.sm,
+  },
+  coachToggleActive: {
+    backgroundColor: COLORS.glass.gold,
+    borderColor: COLORS.gold.glow,
+    ...THEME.shadows.md,
+  },
+  coachToggleIcon: {
+    fontSize: THEME.typography.fontSize.base,
+    marginRight: THEME.spacing.xs / 2,
+  },
+  coachToggleText: {
+    fontSize: THEME.typography.fontSize.sm,
+    fontWeight: THEME.typography.fontWeight.semibold,
+    color: COLORS.ui.lightGray,
+  },
+  coachToggleTextActive: {
+    color: COLORS.gold.primary,
+  },
+  gameArea: {
+    flex: 1,
+    position: 'relative',
+    justifyContent: 'space-around',
   },
   dealerHandSection: {
     alignItems: 'center',
     marginTop: THEME.spacing.md,
-    marginBottom: THEME.spacing.sm,
   },
   playerHandSection: {
     alignItems: 'center',
-    marginTop: THEME.spacing.xl,
-    marginBottom: THEME.spacing.xs,
+    marginBottom: THEME.spacing.md,
+  },
+  coachHintContainer: {
+    position: 'absolute',
+    height: '100%',
+    zIndex: 10,
   },
   actionSection: {
     marginTop: 'auto',
