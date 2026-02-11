@@ -1,4 +1,4 @@
-package com.basicstrategy
+package com.basicstrategy.app
 
 import android.os.Build
 import android.os.Bundle

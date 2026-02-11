@@ -1,4 +1,4 @@
-package com.basicstrategy
+package com.basicstrategy.app
 
 import android.app.Application
 import android.content.res.Configuration
