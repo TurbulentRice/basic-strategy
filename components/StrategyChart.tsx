@@ -33,7 +33,7 @@ export function StrategyChart({ handType, style }: StrategyChartProps) {
         <Text style={styles.dealerLabelText}>Dealer's Up Card →</Text>
       </View>
       <ScrollView
-        horizontal={false}
+        horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >

@@ -14,7 +14,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.basicstrategy.app"
+      "bundleIdentifier": "com.basicstrategy.app",
+      "icon": "./assets/adaptive-icon.png"
     },
     "android": {
       "adaptiveIcon": {
