@@ -25,6 +25,16 @@ Clean, simple, ad-free and free-to-use mobile application designed to help playe
 - **Streak Counter**: Stay motivated with fire streaks! 🔥
 - **Continuous Practice**: Seamless hand-to-hand flow
 
+### 📸 App Screenshots
+
+**Learn Mode**
+
+![Learn Mode screen](assets/screen_learn.png)
+
+**Practice Mode**
+
+![Practice Mode screen](assets/screen_practice.png)
+
 ### 📈 Progress Tracking
 - Real-time accuracy percentage
 - Correct vs. total decisions
