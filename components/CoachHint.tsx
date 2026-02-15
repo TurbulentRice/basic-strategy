@@ -126,14 +126,12 @@ export function CoachHint({ hint, playerHand, dealerCard, style }: CoachHintProp
 const styles = StyleSheet.create({
   container: {
     maxWidth: 350,
-    maxHeight: 420,
-    flex: 1,
+    maxHeight: '90%',
   },
   gradient: {
     borderRadius: THEME.borderRadius.lg,
     padding: 1.5,
     ...THEME.shadows.md,
-    flex: 1,
   },
   innerContainer: {
     backgroundColor: 'rgba(13, 40, 24, 0.95)',
@@ -141,7 +139,6 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: COLORS.gold.glow,
     overflow: 'hidden',
-    flex: 1,
   },
   header: {
     flexDirection: 'row',
@@ -213,7 +210,6 @@ const styles = StyleSheet.create({
     marginHorizontal: THEME.spacing.xs,
   },
   scrollContent: {
-    flex: 1,
     paddingHorizontal: THEME.spacing.sm,
     paddingVertical: THEME.spacing.xs,
   },

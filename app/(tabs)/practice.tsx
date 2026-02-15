@@ -64,19 +64,13 @@ export default function PracticeScreen() {
   return (
     <Screen>
       <View style={styles.container}>
-        {/* Stats Bar with Coach Mode Toggle */}
-        <View style={styles.topBar}>
-          <StatBar stats={stats} style={styles.statBar} />
-          <TouchableOpacity
-            style={[styles.coachToggle, coachMode && styles.coachToggleActive]}
-            onPress={() => setCoachMode(!coachMode)}
-          >
-            <Text style={styles.coachToggleIcon}>💡</Text>
-            <Text style={[styles.coachToggleText, coachMode && styles.coachToggleTextActive]}>
-              Coach
-            </Text>
-          </TouchableOpacity>
-        </View>
+        {/* Stats Bar with integrated Coach Mode Toggle */}
+        <StatBar
+          stats={stats}
+          coachMode={coachMode}
+          onCoachToggle={() => setCoachMode(!coachMode)}
+          style={styles.statBar}
+        />
 
         {/* Game Area (Dealer + Player Hands) */}
         <View style={styles.gameArea}>
@@ -160,43 +154,8 @@ const styles = StyleSheet.create({
     fontSize: THEME.typography.fontSize.xl,
     color: COLORS.ui.white,
   },
-  topBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: THEME.spacing.sm,
-  },
   statBar: {
-    flex: 1,
-    marginRight: THEME.spacing.sm,
-  },
-  coachToggle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: THEME.spacing.xs,
-    paddingHorizontal: THEME.spacing.sm,
-    borderRadius: THEME.borderRadius.lg,
-    backgroundColor: COLORS.glass.white,
-    borderWidth: 1.5,
-    borderColor: COLORS.glass.whiteStrong,
-    ...THEME.shadows.sm,
-  },
-  coachToggleActive: {
-    backgroundColor: COLORS.glass.gold,
-    borderColor: COLORS.gold.glow,
-    ...THEME.shadows.md,
-  },
-  coachToggleIcon: {
-    fontSize: THEME.typography.fontSize.base,
-    marginRight: THEME.spacing.xs / 2,
-  },
-  coachToggleText: {
-    fontSize: THEME.typography.fontSize.sm,
-    fontWeight: THEME.typography.fontWeight.semibold,
-    color: COLORS.ui.lightGray,
-  },
-  coachToggleTextActive: {
-    color: COLORS.gold.primary,
+    marginBottom: THEME.spacing.sm,
   },
   gameArea: {
     flex: 1,
@@ -209,7 +168,6 @@ const styles = StyleSheet.create({
   },
   playerHandSection: {
     alignItems: 'center',
-    marginBottom: THEME.spacing.md,
   },
   coachHintContainer: {
     position: 'absolute',
@@ -219,6 +177,8 @@ const styles = StyleSheet.create({
   actionSection: {
     marginTop: 'auto',
     paddingTop: THEME.spacing.xs,
+    minHeight: 180,
+    justifyContent: 'flex-end',
   },
   prompt: {
     fontSize: THEME.typography.fontSize.base,

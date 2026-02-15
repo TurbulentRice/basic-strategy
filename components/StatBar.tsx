@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { StyleSheet, Text, View, ViewStyle, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { PracticeStats } from '@/types';
 import { COLORS, THEME } from '@/constants/theme';
@@ -7,10 +7,12 @@ import { COLORS, THEME } from '@/constants/theme';
 interface StatBarProps {
   stats: PracticeStats;
   showStreak?: boolean;
+  coachMode?: boolean;
+  onCoachToggle?: () => void;
   style?: ViewStyle;
 }
 
-export function StatBar({ stats, showStreak = true, style }: StatBarProps) {
+export function StatBar({ stats, showStreak = true, coachMode = false, onCoachToggle, style }: StatBarProps) {
   const getStreakEmoji = (streak: number): string => {
     if (streak >= 10) return '🔥🔥';
     if (streak >= 5) return '🔥';
@@ -54,6 +56,28 @@ export function StatBar({ stats, showStreak = true, style }: StatBarProps) {
             </Text>
             <Text style={styles.statLabel}>Streak</Text>
           </View>
+        )}
+
+        {/* Divider before Coach toggle */}
+        {onCoachToggle && <View style={styles.divider} />}
+
+        {/* Coach Mode Toggle */}
+        {onCoachToggle && (
+          <TouchableOpacity
+            style={styles.stat}
+            onPress={onCoachToggle}
+            activeOpacity={0.7}
+          >
+            <Text style={[
+              styles.statValue,
+              coachMode ? styles.coachActiveValue : styles.coachInactiveValue
+            ]}>
+              💡
+            </Text>
+            <Text style={[styles.statLabel, coachMode && styles.coachActiveLabel]}>
+              Coach
+            </Text>
+          </TouchableOpacity>
         )}
       </View>
 
@@ -115,5 +139,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.08)',
     borderTopLeftRadius: THEME.borderRadius.lg,
     borderTopRightRadius: THEME.borderRadius.lg,
+  },
+  coachInactiveValue: {
+    opacity: 0.4,
+  },
+  coachActiveValue: {
+    textShadowColor: COLORS.gold.glow,
+    textShadowRadius: 12,
+  },
+  coachActiveLabel: {
+    color: COLORS.gold.light,
   },
 });
