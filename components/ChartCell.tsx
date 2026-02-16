@@ -9,6 +9,8 @@ interface ChartCellProps {
   isHighlighted?: boolean;
   onPress?: () => void;
   style?: ViewStyle;
+  cellSize?: number;
+  fontSize?: number;
 }
 
 export function ChartCell({
@@ -16,6 +18,8 @@ export function ChartCell({
   isHighlighted = false,
   onPress,
   style,
+  cellSize = 30,
+  fontSize = 12,
 }: ChartCellProps) {
   const backgroundColor = getActionColor(action);
   const textColor = getActionTextColor(action);
@@ -24,14 +28,18 @@ export function ChartCell({
     <TouchableOpacity
       style={[
         styles.cell,
-        { backgroundColor },
+        {
+          width: cellSize,
+          height: cellSize,
+          backgroundColor,
+        },
         isHighlighted && styles.highlighted,
         style,
       ]}
       onPress={onPress}
       activeOpacity={0.7}
     >
-      <Text style={[styles.text, { color: textColor }]}>
+      <Text style={[styles.text, { color: textColor, fontSize }]}>
         {action}
       </Text>
     </TouchableOpacity>
@@ -40,8 +48,6 @@ export function ChartCell({
 
 const styles = StyleSheet.create({
   cell: {
-    width: 30,
-    height: 30,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
@@ -59,7 +65,6 @@ const styles = StyleSheet.create({
     transform: [{ scale: 1.05 }],
   },
   text: {
-    fontSize: THEME.typography.fontSize.sm,
     fontWeight: THEME.typography.fontWeight.bold,
   },
 });
