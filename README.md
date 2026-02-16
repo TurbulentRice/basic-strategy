@@ -324,6 +324,10 @@ Basic strategy charts based on mathematical analysis of blackjack probabilities 
 
 For issues or questions, please refer to the documentation in the `/docs` folder.
 
+## 🔒 Privacy
+
+- Privacy Policy: [PRIVACY.md](PRIVACY.md)
+
 ---
 
 **Start learning basic strategy today and improve your blackjack game!** 🃏♠️
