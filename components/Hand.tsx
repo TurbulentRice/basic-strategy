@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { StyleSheet, Text, View, ViewStyle, useWindowDimensions } from 'react-native';
 import { Hand as HandType } from '@/types';
 import { Card } from './Card';
 import { evaluateHand } from '@/utils/handUtils';
@@ -14,6 +14,33 @@ interface HandProps {
   style?: ViewStyle;
 }
 
+// Calculate responsive card width based on screen size
+function getResponsiveCardWidth(screenWidth: number, baseSize: 'small' | 'standard' | 'large'): number {
+  // Base sizes for mobile (320-375px width)
+  const baseSizes = {
+    small: 60,
+    standard: 90,
+    large: 110,
+  };
+
+  // Breakpoints
+  const MOBILE_MAX = 480;
+  const TABLET_MIN = 481;
+  const TABLET_MAX = 1024;
+
+  if (screenWidth <= MOBILE_MAX) {
+    // Mobile: use base sizes
+    return baseSizes[baseSize];
+  } else if (screenWidth <= TABLET_MAX) {
+    // Tablet: scale up 1.4x - 1.8x based on screen width
+    const scaleRange = screenWidth <= 768 ? 1.4 : 1.6;
+    return Math.floor(baseSizes[baseSize] * scaleRange);
+  } else {
+    // Large screens: max scale of 2x
+    return Math.floor(baseSizes[baseSize] * 2);
+  }
+}
+
 export function Hand({
   hand,
   showTotal = true,
@@ -22,13 +49,24 @@ export function Hand({
   label,
   style,
 }: HandProps) {
+  const { width: screenWidth } = useWindowDimensions();
   const handValue = evaluateHand(hand);
+
+  // Calculate responsive sizes
+  const cardWidth = getResponsiveCardWidth(screenWidth, size);
   const cardSpacing = size === 'small' ? 4 : size === 'large' ? 12 : 8;
+  const responsiveSpacing = Math.floor(cardSpacing * (cardWidth / THEME.card.width[size]));
 
   return (
     <View style={[styles.container, style]}>
       {label && (
-        <Text style={styles.label}>{label}</Text>
+        <Text style={[
+          styles.label,
+          {
+            fontSize: Math.floor(THEME.typography.fontSize.xs * (cardWidth / THEME.card.width[size])),
+            marginBottom: Math.floor((THEME.spacing.xs / 2) * (cardWidth / THEME.card.width[size]))
+          }
+        ]}>{label}</Text>
       )}
 
       <View style={styles.cardsContainer}>
@@ -37,21 +75,32 @@ export function Hand({
             key={`${card.rank}-${card.suit}-${index}`}
             style={[
               styles.cardWrapper,
-              index > 0 && { marginLeft: -cardSpacing * 2 },
+              index > 0 && { marginLeft: -responsiveSpacing * 2 },
             ]}
           >
             <Card
               card={card}
               faceDown={index === 0 && hideFirstCard}
               size={size}
+              width={cardWidth}
             />
           </View>
         ))}
       </View>
 
       {showTotal && !hideFirstCard && (
-        <View style={styles.totalContainer}>
-          <Text style={styles.total}>
+        <View style={[
+          styles.totalContainer,
+          {
+            marginTop: Math.floor(THEME.spacing.xs * (cardWidth / THEME.card.width[size])),
+            paddingHorizontal: Math.floor(THEME.spacing.sm * (cardWidth / THEME.card.width[size])),
+            paddingVertical: Math.floor((THEME.spacing.xs / 2) * (cardWidth / THEME.card.width[size]))
+          }
+        ]}>
+          <Text style={[
+            styles.total,
+            { fontSize: Math.floor(THEME.typography.fontSize.base * (cardWidth / THEME.card.width[size])) }
+          ]}>
             {handValue.total}
             {handValue.isSoft && ' (soft)'}
             {handValue.isBlackjack && ' - Blackjack!'}
