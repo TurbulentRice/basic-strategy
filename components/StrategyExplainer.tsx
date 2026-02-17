@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { StyleSheet, Text, View, ViewStyle, useWindowDimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Action, DealerCard } from '@/types';
 import { COLORS, THEME } from '@/constants/theme';
@@ -21,6 +21,9 @@ export function StrategyExplainer({
   action,
   style,
 }: StrategyExplainerProps) {
+  const { width: screenWidth } = useWindowDimensions();
+  const isMobile = screenWidth < 768;
+
   // Parse the player hand label to create a mock hand for coaching
   const playerHand = parseHandLabel(playerHandLabel, action);
   const dealerCardObj = { rank: dealerCard === 11 ? 'A' : String(dealerCard), suit: 'spades' } as any;
@@ -39,60 +42,60 @@ export function StrategyExplainer({
       >
         <View style={styles.innerContainer}>
           {/* Header */}
-          <View style={styles.header}>
-            <Text style={styles.headerIcon}>📚</Text>
-            <Text style={styles.headerText}>Strategy Guide</Text>
+          <View style={[styles.header, isMobile && styles.headerMobile]}>
+            <Text style={[styles.headerIcon, isMobile && styles.headerIconMobile]}>📚</Text>
+            <Text style={[styles.headerText, isMobile && styles.headerTextMobile]}>Strategy Guide</Text>
           </View>
 
           {/* Situation Display */}
-          <View style={styles.situationContainer}>
+          <View style={[styles.situationContainer, isMobile && styles.situationContainerMobile]}>
             <View style={styles.situationRow}>
-              <Text style={styles.situationLabel}>Your Hand:</Text>
-              <Text style={styles.situationValue}>{playerHandLabel}</Text>
+              <Text style={[styles.situationLabel, isMobile && styles.situationLabelMobile]}>Your Hand:</Text>
+              <Text style={[styles.situationValue, isMobile && styles.situationValueMobile]}>{playerHandLabel}</Text>
             </View>
             <View style={styles.situationRow}>
-              <Text style={styles.situationLabel}>Dealer Shows:</Text>
-              <Text style={styles.situationValue}>{formatDealerCard(dealerCard)}</Text>
+              <Text style={[styles.situationLabel, isMobile && styles.situationLabelMobile]}>Dealer Shows:</Text>
+              <Text style={[styles.situationValue, isMobile && styles.situationValueMobile]}>{formatDealerCard(dealerCard)}</Text>
             </View>
             <View style={styles.situationRow}>
-              <Text style={styles.situationLabel}>Correct Play:</Text>
-              <View style={[styles.actionBadge, { backgroundColor: actionColor }]}>
-                <Text style={styles.actionBadgeText}>{actionLabel}</Text>
+              <Text style={[styles.situationLabel, isMobile && styles.situationLabelMobile]}>Correct Play:</Text>
+              <View style={[styles.actionBadge, isMobile && styles.actionBadgeMobile, { backgroundColor: actionColor }]}>
+                <Text style={[styles.actionBadgeText, isMobile && styles.actionBadgeTextMobile]}>{actionLabel}</Text>
               </View>
             </View>
           </View>
 
           {/* Coaching Sections */}
-          <View style={styles.content}>
+          <View style={[styles.content, isMobile && styles.contentMobile]}>
             {/* Primary Insight */}
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>💡 Key Strategy:</Text>
-              <Text style={styles.sectionText}>{hint.primaryInsight}</Text>
+              <Text style={[styles.sectionTitle, isMobile && styles.sectionTitleMobile]}>💡 Key Strategy:</Text>
+              <Text style={[styles.sectionText, isMobile && styles.sectionTextMobile]}>{hint.primaryInsight}</Text>
             </View>
 
             {/* Dealer Analysis */}
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>🎯 Dealer Situation:</Text>
-              <Text style={styles.sectionText}>{hint.dealerAnalysis}</Text>
+              <Text style={[styles.sectionTitle, isMobile && styles.sectionTitleMobile]}>🎯 Dealer Situation:</Text>
+              <Text style={[styles.sectionText, isMobile && styles.sectionTextMobile]}>{hint.dealerAnalysis}</Text>
             </View>
 
             {/* Player Analysis */}
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>🃏 Your Hand:</Text>
-              <Text style={styles.sectionText}>{hint.playerAnalysis}</Text>
+              <Text style={[styles.sectionTitle, isMobile && styles.sectionTitleMobile]}>🃏 Your Hand:</Text>
+              <Text style={[styles.sectionText, isMobile && styles.sectionTextMobile]}>{hint.playerAnalysis}</Text>
             </View>
 
             {/* Strategic Concept */}
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>🧠 Why This Works:</Text>
-              <Text style={styles.sectionText}>{hint.strategicConcept}</Text>
+              <Text style={[styles.sectionTitle, isMobile && styles.sectionTitleMobile]}>🧠 Why This Works:</Text>
+              <Text style={[styles.sectionText, isMobile && styles.sectionTextMobile]}>{hint.strategicConcept}</Text>
             </View>
 
             {/* Common Mistake */}
             {hint.commonMistake && (
-              <View style={[styles.section, styles.mistakeSection]}>
-                <Text style={styles.mistakeTitle}>⚠️ Common Mistake:</Text>
-                <Text style={styles.mistakeText}>{hint.commonMistake}</Text>
+              <View style={[styles.section, styles.mistakeSection, isMobile && styles.mistakeSectionMobile]}>
+                <Text style={[styles.mistakeTitle, isMobile && styles.mistakeTitleMobile]}>⚠️ Common Mistake:</Text>
+                <Text style={[styles.mistakeText, isMobile && styles.mistakeTextMobile]}>{hint.commonMistake}</Text>
               </View>
             )}
           </View>
@@ -171,9 +174,17 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: COLORS.gold.glow,
   },
+  headerMobile: {
+    paddingHorizontal: THEME.spacing.sm,
+    paddingTop: THEME.spacing.sm,
+    paddingBottom: THEME.spacing.xs,
+  },
   headerIcon: {
     fontSize: THEME.typography.fontSize.lg,
     marginRight: THEME.spacing.xs,
+  },
+  headerIconMobile: {
+    fontSize: THEME.typography.fontSize.base,
   },
   headerText: {
     fontSize: THEME.typography.fontSize.base,
@@ -182,6 +193,9 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
+  headerTextMobile: {
+    fontSize: THEME.typography.fontSize.sm,
+  },
   situationContainer: {
     paddingHorizontal: THEME.spacing.md,
     paddingVertical: THEME.spacing.md,
@@ -189,6 +203,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: COLORS.gold.glow,
     gap: THEME.spacing.xs,
+  },
+  situationContainerMobile: {
+    paddingHorizontal: THEME.spacing.sm,
+    paddingVertical: THEME.spacing.sm,
+    gap: THEME.spacing.xs / 2,
   },
   situationRow: {
     flexDirection: 'row',
@@ -200,10 +219,16 @@ const styles = StyleSheet.create({
     color: COLORS.ui.mediumGray,
     fontWeight: THEME.typography.fontWeight.semibold,
   },
+  situationLabelMobile: {
+    fontSize: THEME.typography.fontSize.xs,
+  },
   situationValue: {
     fontSize: THEME.typography.fontSize.base,
     color: COLORS.ui.white,
     fontWeight: THEME.typography.fontWeight.bold,
+  },
+  situationValueMobile: {
+    fontSize: THEME.typography.fontSize.sm,
   },
   actionBadge: {
     paddingHorizontal: THEME.spacing.sm,
@@ -211,15 +236,27 @@ const styles = StyleSheet.create({
     borderRadius: THEME.borderRadius.md,
     ...THEME.shadows.sm,
   },
+  actionBadgeMobile: {
+    paddingHorizontal: THEME.spacing.xs,
+    paddingVertical: 2,
+  },
   actionBadgeText: {
     fontSize: THEME.typography.fontSize.sm,
     fontWeight: THEME.typography.fontWeight.bold,
     color: COLORS.feltGreen.dark,
   },
+  actionBadgeTextMobile: {
+    fontSize: THEME.typography.fontSize.xs,
+  },
   content: {
     paddingHorizontal: THEME.spacing.md,
     paddingVertical: THEME.spacing.md,
     gap: THEME.spacing.md,
+  },
+  contentMobile: {
+    paddingHorizontal: THEME.spacing.sm,
+    paddingVertical: THEME.spacing.sm,
+    gap: THEME.spacing.sm,
   },
   section: {},
   sectionTitle: {
@@ -228,10 +265,18 @@ const styles = StyleSheet.create({
     color: COLORS.gold.primary,
     marginBottom: THEME.spacing.xs / 2,
   },
+  sectionTitleMobile: {
+    fontSize: THEME.typography.fontSize.xs,
+    marginBottom: 2,
+  },
   sectionText: {
     fontSize: THEME.typography.fontSize.sm,
     color: COLORS.ui.lightGray,
     lineHeight: THEME.typography.fontSize.sm * 1.5,
+  },
+  sectionTextMobile: {
+    fontSize: THEME.typography.fontSize.xs,
+    lineHeight: THEME.typography.fontSize.xs * 1.5,
   },
   mistakeSection: {
     backgroundColor: 'rgba(255, 152, 0, 0.1)',
@@ -240,16 +285,27 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(255, 152, 0, 0.3)',
   },
+  mistakeSectionMobile: {
+    padding: THEME.spacing.xs,
+  },
   mistakeTitle: {
     fontSize: THEME.typography.fontSize.sm,
     fontWeight: THEME.typography.fontWeight.bold,
     color: COLORS.feedback.warning,
     marginBottom: THEME.spacing.xs / 2,
   },
+  mistakeTitleMobile: {
+    fontSize: THEME.typography.fontSize.xs,
+    marginBottom: 2,
+  },
   mistakeText: {
     fontSize: THEME.typography.fontSize.sm,
     color: COLORS.ui.lightGray,
     lineHeight: THEME.typography.fontSize.sm * 1.5,
+  },
+  mistakeTextMobile: {
+    fontSize: THEME.typography.fontSize.xs,
+    lineHeight: THEME.typography.fontSize.xs * 1.5,
   },
   shine: {
     position: 'absolute',
