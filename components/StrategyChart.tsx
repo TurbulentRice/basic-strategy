@@ -3,10 +3,12 @@ import { StyleSheet, Text, View, ScrollView, ViewStyle, useWindowDimensions } fr
 import { ChartCell } from './ChartCell';
 import { COLORS, THEME } from '@/constants/theme';
 import { getChartData, formatDealerCard, HandType } from '@/utils/chartUtils';
+import { Action } from '@/types';
 
 interface StrategyChartProps {
   handType: HandType;
   style?: ViewStyle;
+  onCellSelect?: (selection: { rowLabel: string; dealerCard: number; action: Action } | null) => void;
 }
 
 // Calculate responsive cell sizes based on screen width
@@ -50,7 +52,7 @@ function calculateCellSize(screenWidth: number): {
   return { cellSize, labelWidth, fontSize, headerFontSize, needsScroll };
 }
 
-export function StrategyChart({ handType, style }: StrategyChartProps) {
+export function StrategyChart({ handType, style, onCellSelect }: StrategyChartProps) {
   const [highlightedRow, setHighlightedRow] = useState<number | null>(null);
   const [highlightedCol, setHighlightedCol] = useState<number | null>(null);
   const { width: screenWidth } = useWindowDimensions();
@@ -63,9 +65,16 @@ export function StrategyChart({ handType, style }: StrategyChartProps) {
       // Deselect if clicking the same cell
       setHighlightedRow(null);
       setHighlightedCol(null);
+      onCellSelect?.(null);
     } else {
       setHighlightedRow(rowIndex);
       setHighlightedCol(colIndex);
+      const row = chartData.rows[rowIndex];
+      onCellSelect?.({
+        rowLabel: row.label,
+        dealerCard: chartData.dealerCards[colIndex],
+        action: row.cells[colIndex],
+      });
     }
   };
 

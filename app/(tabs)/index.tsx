@@ -1,14 +1,29 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Screen } from '@/components/Screen';
 import { ChartTabs } from '@/components/ChartTabs';
 import { StrategyChart } from '@/components/StrategyChart';
 import { ChartLegend } from '@/components/ChartLegend';
+import { StrategyExplainer } from '@/components/StrategyExplainer';
 import { HandType } from '@/utils/chartUtils';
 import { COLORS, THEME } from '@/constants/theme';
+import { Action, DealerCard } from '@/types';
 
 export default function LearnScreen() {
   const [selectedTab, setSelectedTab] = useState<HandType>('hard');
+  const [selectedCell, setSelectedCell] = useState<{
+    rowLabel: string;
+    dealerCard: DealerCard;
+    action: Action;
+  } | null>(null);
+  const { width: screenWidth } = useWindowDimensions();
+
+  // Determine if we should use tablet layout (side-by-side)
+  const isTablet = screenWidth >= 768;
+
+  const handleCellSelect = (selection: { rowLabel: string; dealerCard: DealerCard; action: Action } | null) => {
+    setSelectedCell(selection);
+  };
 
   return (
     <Screen scrollable>
@@ -17,7 +32,7 @@ export default function LearnScreen() {
         <View style={styles.header}>
           <Text style={styles.title}>Basic Strategy Chart</Text>
           <Text style={styles.subtitle}>
-            Tap any cell to highlight the row and column
+            Tap any cell to see detailed strategy explanation
           </Text>
         </View>
 
@@ -31,11 +46,38 @@ export default function LearnScreen() {
           style={styles.tabs}
         />
 
-        {/* Chart */}
-        <StrategyChart
-          handType={selectedTab}
-          style={styles.chart}
-        />
+        {/* Chart and Explainer - Responsive Layout */}
+        <View style={[styles.mainContent, isTablet && styles.mainContentTablet]}>
+          {/* Chart */}
+          <View style={[styles.chartContainer, isTablet && styles.chartContainerTablet]}>
+            <StrategyChart
+              handType={selectedTab}
+              style={styles.chart}
+              onCellSelect={handleCellSelect}
+            />
+          </View>
+
+          {/* Strategy Explainer - Tablet: side by side */}
+          {selectedCell && isTablet && (
+            <View style={styles.explainerContainerTablet}>
+              <StrategyExplainer
+                playerHandLabel={selectedCell.rowLabel}
+                dealerCard={selectedCell.dealerCard}
+                action={selectedCell.action}
+              />
+            </View>
+          )}
+        </View>
+
+        {/* Strategy Explainer - Mobile: below chart */}
+        {selectedCell && !isTablet && (
+          <StrategyExplainer
+            playerHandLabel={selectedCell.rowLabel}
+            dealerCard={selectedCell.dealerCard}
+            action={selectedCell.action}
+            style={styles.explainerMobile}
+          />
+        )}
 
         {/* Info */}
         <View style={styles.info}>
@@ -73,7 +115,27 @@ const styles = StyleSheet.create({
   tabs: {
     marginBottom: THEME.spacing.md,
   },
-  chart: {
+  mainContent: {
+    marginBottom: THEME.spacing.lg,
+  },
+  mainContentTablet: {
+    flexDirection: 'row',
+    gap: THEME.spacing.md,
+    alignItems: 'flex-start',
+  },
+  chartContainer: {
+    width: '100%',
+  },
+  chartContainerTablet: {
+    flex: 1,
+    minWidth: 400,
+  },
+  chart: {},
+  explainerContainerTablet: {
+    flex: 1,
+    maxWidth: 500,
+  },
+  explainerMobile: {
     marginBottom: THEME.spacing.lg,
   },
   info: {
