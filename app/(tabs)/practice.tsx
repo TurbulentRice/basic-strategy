@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { usePractice } from '@/contexts/PracticeContext';
 import { Screen } from '@/components/Screen';
 import { StatBar } from '@/components/StatBar';
@@ -18,6 +18,8 @@ export default function PracticeScreen() {
   const { state, startNewHand, submitAction } = usePractice();
   const { currentHand, lastAction, wasCorrect, stats } = state;
   const [coachMode, setCoachMode] = useState(false);
+  const { width: screenWidth } = useWindowDimensions();
+  const isTablet = screenWidth >= 768;
 
   // Start first hand on mount
   useEffect(() => {
@@ -118,15 +120,15 @@ export default function PracticeScreen() {
                 style={styles.feedback}
               />
               <TouchableOpacity
-                style={styles.nextButton}
+                style={[styles.nextButton, isTablet && styles.nextButtonTablet]}
                 onPress={handleNextHand}
               >
-                <Text style={styles.nextButtonText}>Next Hand →</Text>
+                <Text style={[styles.nextButtonText, isTablet && styles.nextButtonTextTablet]}>Next Hand →</Text>
               </TouchableOpacity>
             </>
           ) : (
             <>
-              <Text style={styles.prompt}>What should you do?</Text>
+              <Text style={[styles.prompt, isTablet && styles.promptTablet]}>What should you do?</Text>
               <ActionButtons
                 availableActions={availableActions}
                 onActionPress={handleActionPress}
@@ -187,6 +189,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: THEME.spacing.sm,
   },
+  promptTablet: {
+    fontSize: THEME.typography.fontSize.lg,
+    marginBottom: THEME.spacing.md,
+  },
   feedback: {
     marginBottom: THEME.spacing.sm,
   },
@@ -198,9 +204,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     ...THEME.shadows.md,
   },
+  nextButtonTablet: {
+    paddingVertical: THEME.spacing.lg,
+    paddingHorizontal: THEME.spacing.xl,
+  },
   nextButtonText: {
     fontSize: THEME.typography.fontSize.base,
     fontWeight: THEME.typography.fontWeight.bold,
     color: COLORS.feltGreen.dark,
+  },
+  nextButtonTextTablet: {
+    fontSize: THEME.typography.fontSize.lg,
   },
 });

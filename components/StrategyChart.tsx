@@ -88,7 +88,10 @@ export function StrategyChart({ handType, style, onCellSelect }: StrategyChartPr
         horizontal
         showsHorizontalScrollIndicator={false}
         scrollEnabled={sizes.needsScroll}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[
+          styles.scrollContent,
+          !sizes.needsScroll && styles.scrollContentCentered
+        ]}
       >
         <View>
           {/* Header row with dealer cards */}
@@ -188,6 +191,10 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingBottom: THEME.spacing.xs,
+  },
+  scrollContentCentered: {
+    flexGrow: 1,
+    justifyContent: 'center',
   },
   headerRow: {
     flexDirection: 'row',

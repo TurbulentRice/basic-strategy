@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { StyleSheet, Text, View, ViewStyle, useWindowDimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Action } from '@/types';
 import { COLORS, THEME } from '@/constants/theme';
@@ -20,6 +20,9 @@ export function FeedbackMessage({
   explanation,
   style,
 }: FeedbackMessageProps) {
+  const { width: screenWidth } = useWindowDimensions();
+  const isTablet = screenWidth >= 768;
+
   const gradientColors: [string, string] = isCorrect
     ? ['rgba(76, 175, 80, 0.3)', 'rgba(76, 175, 80, 0.2)']
     : ['rgba(244, 67, 54, 0.3)', 'rgba(244, 67, 54, 0.2)'];
@@ -34,23 +37,23 @@ export function FeedbackMessage({
       end={{ x: 1, y: 1 }}
       style={[styles.container, style]}
     >
-      <View style={[styles.innerContainer, { borderColor }]}>
-        <Text style={[styles.result, { textShadowColor: glowColor }]}>
+      <View style={[styles.innerContainer, isTablet && styles.innerContainerTablet, { borderColor }]}>
+        <Text style={[styles.result, isTablet && styles.resultTablet, { textShadowColor: glowColor }]}>
           {isCorrect ? '✅ Correct!' : '❌ Incorrect'}
         </Text>
 
-        <Text style={styles.action}>
+        <Text style={[styles.action, isTablet && styles.actionTablet]}>
           You chose: <Text style={styles.bold}>{getActionLabel(userAction)}</Text>
         </Text>
 
         {!isCorrect && (
-          <Text style={styles.action}>
+          <Text style={[styles.action, isTablet && styles.actionTablet]}>
             Correct: <Text style={styles.bold}>{getActionLabel(correctAction)}</Text>
           </Text>
         )}
 
         {explanation && (
-          <Text style={styles.explanation}>{explanation}</Text>
+          <Text style={[styles.explanation, isTablet && styles.explanationTablet]}>{explanation}</Text>
         )}
       </View>
 
@@ -73,6 +76,9 @@ const styles = StyleSheet.create({
     padding: THEME.spacing.sm,
     borderWidth: 2,
   },
+  innerContainerTablet: {
+    padding: THEME.spacing.md,
+  },
   result: {
     fontSize: THEME.typography.fontSize.lg,
     fontWeight: THEME.typography.fontWeight.bold,
@@ -82,11 +88,19 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 8,
   },
+  resultTablet: {
+    fontSize: THEME.typography.fontSize.xl,
+    marginBottom: THEME.spacing.sm,
+  },
   action: {
     fontSize: THEME.typography.fontSize.sm,
     color: COLORS.ui.lightGray,
     textAlign: 'center',
     marginBottom: THEME.spacing.xs / 2,
+  },
+  actionTablet: {
+    fontSize: THEME.typography.fontSize.base,
+    marginBottom: THEME.spacing.xs,
   },
   bold: {
     fontWeight: THEME.typography.fontWeight.bold,
@@ -99,6 +113,11 @@ const styles = StyleSheet.create({
     marginTop: THEME.spacing.xs,
     fontStyle: 'italic',
     lineHeight: THEME.typography.fontSize.xs * 1.4,
+  },
+  explanationTablet: {
+    fontSize: THEME.typography.fontSize.sm,
+    marginTop: THEME.spacing.sm,
+    lineHeight: THEME.typography.fontSize.sm * 1.4,
   },
   shine: {
     position: 'absolute',

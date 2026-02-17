@@ -6,6 +6,7 @@ import {
   ViewStyle,
   Platform,
   Animated,
+  useWindowDimensions,
 } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -22,6 +23,8 @@ interface ActionButtonProps {
 }
 
 export function ActionButton({ action, onPress, disabled = false, style }: ActionButtonProps) {
+  const { width: screenWidth } = useWindowDimensions();
+  const isTablet = screenWidth >= 768;
   const colors = ACTION_BUTTON_COLORS[action as keyof typeof ACTION_BUTTON_COLORS];
   const label = getActionLabel(action);
   const scaleAnim = useRef(new Animated.Value(1)).current;
@@ -99,6 +102,7 @@ export function ActionButton({ action, onPress, disabled = false, style }: Actio
       <Animated.View
         style={[
           styles.container,
+          isTablet && styles.containerTablet,
           { transform: [{ scale: scaleAnim }] },
           glowStyle,
           disabled && styles.disabled,
@@ -113,6 +117,7 @@ export function ActionButton({ action, onPress, disabled = false, style }: Actio
           <Text
             style={[
               styles.text,
+              isTablet && styles.textTablet,
               { color: colors.text },
               disabled && styles.disabledText,
             ]}
@@ -144,6 +149,9 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     ...THEME.shadows.lg,
   },
+  containerTablet: {
+    height: 64,
+  },
   gradient: {
     flex: 1,
     justifyContent: 'center',
@@ -165,6 +173,9 @@ const styles = StyleSheet.create({
     textShadowColor: 'rgba(0, 0, 0, 0.2)',
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 2,
+  },
+  textTablet: {
+    fontSize: THEME.typography.fontSize.xl,
   },
   disabled: {
     opacity: 0.5,

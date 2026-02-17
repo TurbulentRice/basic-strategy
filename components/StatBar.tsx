@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ViewStyle, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ViewStyle, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { PracticeStats } from '@/types';
 import { COLORS, THEME } from '@/constants/theme';
@@ -13,6 +13,9 @@ interface StatBarProps {
 }
 
 export function StatBar({ stats, showStreak = true, coachMode = false, onCoachToggle, style }: StatBarProps) {
+  const { width: screenWidth } = useWindowDimensions();
+  const isTablet = screenWidth >= 768;
+
   const getStreakEmoji = (streak: number): string => {
     if (streak >= 10) return '🔥🔥';
     if (streak >= 5) return '🔥';
@@ -27,39 +30,39 @@ export function StatBar({ stats, showStreak = true, coachMode = false, onCoachTo
       style={[styles.container, style]}
     >
       {/* Glass border effect */}
-      <View style={styles.innerContainer}>
+      <View style={[styles.innerContainer, isTablet && styles.innerContainerTablet]}>
         {/* Accuracy */}
         <View style={styles.stat}>
-          <Text style={styles.statValue}>{stats.accuracy}%</Text>
-          <Text style={styles.statLabel}>Accuracy</Text>
+          <Text style={[styles.statValue, isTablet && styles.statValueTablet]}>{stats.accuracy}%</Text>
+          <Text style={[styles.statLabel, isTablet && styles.statLabelTablet]}>Accuracy</Text>
         </View>
 
         {/* Divider */}
-        <View style={styles.divider} />
+        <View style={[styles.divider, isTablet && styles.dividerTablet]} />
 
         {/* Total Hands */}
         <View style={styles.stat}>
-          <Text style={styles.statValue}>
+          <Text style={[styles.statValue, isTablet && styles.statValueTablet]}>
             {stats.correctDecisions}/{stats.totalHands}
           </Text>
-          <Text style={styles.statLabel}>Correct</Text>
+          <Text style={[styles.statLabel, isTablet && styles.statLabelTablet]}>Correct</Text>
         </View>
 
         {/* Divider */}
-        {showStreak && <View style={styles.divider} />}
+        {showStreak && <View style={[styles.divider, isTablet && styles.dividerTablet]} />}
 
         {/* Streak */}
         {showStreak && (
           <View style={styles.stat}>
-            <Text style={styles.statValue}>
+            <Text style={[styles.statValue, isTablet && styles.statValueTablet]}>
               {getStreakEmoji(stats.currentStreak)} {stats.currentStreak}
             </Text>
-            <Text style={styles.statLabel}>Streak</Text>
+            <Text style={[styles.statLabel, isTablet && styles.statLabelTablet]}>Streak</Text>
           </View>
         )}
 
         {/* Divider before Coach toggle */}
-        {onCoachToggle && <View style={styles.divider} />}
+        {onCoachToggle && <View style={[styles.divider, isTablet && styles.dividerTablet]} />}
 
         {/* Coach Mode Toggle */}
         {onCoachToggle && (
@@ -67,14 +70,16 @@ export function StatBar({ stats, showStreak = true, coachMode = false, onCoachTo
             style={styles.stat}
             onPress={onCoachToggle}
             activeOpacity={0.7}
+            hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
           >
             <Text style={[
               styles.statValue,
+              isTablet && styles.statValueTablet,
               coachMode ? styles.coachActiveValue : styles.coachInactiveValue
             ]}>
               💡
             </Text>
-            <Text style={[styles.statLabel, coachMode && styles.coachActiveLabel]}>
+            <Text style={[styles.statLabel, isTablet && styles.statLabelTablet, coachMode && styles.coachActiveLabel]}>
               Coach
             </Text>
           </TouchableOpacity>
@@ -104,6 +109,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.glass.whiteLight,
   },
+  innerContainerTablet: {
+    padding: THEME.spacing.lg,
+  },
   stat: {
     alignItems: 'center',
     flex: 1,
@@ -117,6 +125,10 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 8,
   },
+  statValueTablet: {
+    fontSize: THEME.typography.fontSize['2xl'],
+    marginBottom: THEME.spacing.xs,
+  },
   statLabel: {
     fontSize: THEME.typography.fontSize.xs,
     fontWeight: THEME.typography.fontWeight.medium,
@@ -124,11 +136,18 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
+  statLabelTablet: {
+    fontSize: THEME.typography.fontSize.sm,
+  },
   divider: {
     width: 1,
     height: 32,
     backgroundColor: COLORS.glass.whiteLight,
     marginHorizontal: THEME.spacing.xs,
+  },
+  dividerTablet: {
+    height: 40,
+    marginHorizontal: THEME.spacing.sm,
   },
   shine: {
     position: 'absolute',

@@ -30,8 +30,8 @@ export default function LearnScreen() {
       <View style={styles.container}>
         {/* Title */}
         <View style={styles.header}>
-          <Text style={styles.title}>Basic Strategy Chart</Text>
-          <Text style={styles.subtitle}>
+          <Text style={[styles.title, isTablet && styles.titleTablet]}>Basic Strategy Chart</Text>
+          <Text style={[styles.subtitle, isTablet && styles.subtitleTablet]}>
             Tap any cell to see detailed strategy explanation
           </Text>
         </View>
@@ -104,10 +104,16 @@ const styles = StyleSheet.create({
     color: COLORS.ui.white,
     marginBottom: THEME.spacing.xs,
   },
+  titleTablet: {
+    fontSize: THEME.typography.fontSize['3xl'],
+  },
   subtitle: {
     fontSize: THEME.typography.fontSize.sm,
     color: COLORS.ui.mediumGray,
     fontStyle: 'italic',
+  },
+  subtitleTablet: {
+    fontSize: THEME.typography.fontSize.base,
   },
   legend: {
     marginBottom: THEME.spacing.md,
