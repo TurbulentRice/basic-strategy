@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, ViewStyle, useWindowDimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Action, DealerCard } from '@/types';
+import { Action, Card, DealerCard, Hand as HandType, Rank } from '@/types';
 import { COLORS, THEME } from '@/constants/theme';
 import { getActionLabel } from '@/utils/strategyUtils';
 import { getActionColor, formatDealerCard } from '@/utils/chartUtils';
@@ -26,7 +26,10 @@ export function StrategyExplainer({
 
   // Parse the player hand label to create a mock hand for coaching
   const playerHand = parseHandLabel(playerHandLabel, action);
-  const dealerCardObj = { rank: dealerCard === 11 ? 'A' : String(dealerCard), suit: 'spades' } as any;
+  const dealerCardObj: Card = {
+    rank: dealerCard === 11 ? 'A' : toRank(String(dealerCard)),
+    suit: 'spades',
+  };
 
   const hint = generateCoachingHint(playerHand, dealerCardObj, action);
   const actionColor = getActionColor(action);
@@ -108,45 +111,52 @@ export function StrategyExplainer({
   );
 }
 
+const VALID_RANKS: Rank[] = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+
+function toRank(value: string): Rank {
+  const normalized = value.trim().toUpperCase();
+  if (normalized === '1' || normalized === '11') return 'A';
+  if (VALID_RANKS.includes(normalized as Rank)) return normalized as Rank;
+  return '10';
+}
+
 // Helper function to parse hand label and create a mock Hand object
-function parseHandLabel(label: string, _action: Action): any {
-  // For pairs like "A,A" or "8,8"
+function parseHandLabel(label: string, _action: Action): HandType {
+  // For labels like "A,A" or "8,8"
   if (label.includes(',')) {
     const [rank1, rank2] = label.split(',');
     return createHand([
-      { rank: rank1, suit: 'spades' },
-      { rank: rank2, suit: 'hearts' },
-    ] as any);
+      { rank: toRank(rank1), suit: 'spades' },
+      { rank: toRank(rank2), suit: 'hearts' },
+    ]);
   }
 
-  // For soft totals like "A,9", "A,8", etc. - already covered above
-
   // For hard totals (just numbers)
-  const total = parseInt(label);
-  if (!isNaN(total)) {
-    // Create a simple hand that reaches this total
+  const total = parseInt(label, 10);
+  if (!Number.isNaN(total)) {
     if (total <= 11) {
-      // Low totals - use simple cards
-      const cards = [];
+      const cards: Card[] = [];
       let remaining = total;
       while (remaining > 0) {
-        const card = Math.min(remaining, 10);
-        cards.push({ rank: String(card), suit: 'spades' });
-        remaining -= card;
+        const value = Math.min(remaining, 10);
+        cards.push({ rank: toRank(String(value)), suit: 'spades' });
+        remaining -= value;
       }
-      return createHand(cards as any);
-    } else {
-      // Higher totals - use a 10 and remaining
-      const secondCard = total - 10;
-      return createHand([
-        { rank: '10', suit: 'spades' },
-        { rank: String(secondCard), suit: 'hearts' },
-      ] as any);
+      return createHand(cards);
     }
+
+    const secondCard = Math.max(2, Math.min(total - 10, 10));
+    return createHand([
+      { rank: '10', suit: 'spades' },
+      { rank: toRank(String(secondCard)), suit: 'hearts' },
+    ]);
   }
 
   // Fallback
-  return createHand([{ rank: '10', suit: 'spades' }, { rank: '7', suit: 'hearts' }] as any);
+  return createHand([
+    { rank: '10', suit: 'spades' },
+    { rank: '7', suit: 'hearts' },
+  ]);
 }
 
 const styles = StyleSheet.create({

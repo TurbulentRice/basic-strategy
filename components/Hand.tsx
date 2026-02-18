@@ -25,7 +25,6 @@ function getResponsiveCardWidth(screenWidth: number, baseSize: 'small' | 'standa
 
   // Breakpoints
   const MOBILE_MAX = 480;
-  const TABLET_MIN = 481;
   const TABLET_MAX = 1024;
 
   if (screenWidth <= MOBILE_MAX) {
