@@ -62,6 +62,7 @@ interface CardProps {
   card: CardType;
   faceDown?: boolean;
   size?: 'small' | 'standard' | 'large';
+  width?: number; // Allow custom width for responsive sizing
   style?: ViewStyle;
 }
 
@@ -127,8 +128,9 @@ function getCardComponent(rank: Rank, suit: string) {
   return cardMap[key];
 }
 
-export function Card({ card, faceDown = false, size = 'standard', style }: CardProps) {
-  const cardWidth = THEME.card.width[size];
+export function Card({ card, faceDown = false, size = 'standard', width, style }: CardProps) {
+  // Use custom width if provided, otherwise use theme width
+  const cardWidth = width ?? THEME.card.width[size];
   const cardHeight = cardWidth / THEME.card.aspectRatio;
 
   if (faceDown) {
